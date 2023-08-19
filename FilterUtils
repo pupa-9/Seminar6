@@ -1,0 +1,44 @@
+package notebook;
+
+import java.util.*;
+
+public class FilterUtils {
+    public static Set<Notebook> filterNotebooks(Set<Notebook> notebooks, Map<String, Object> filters) {
+        Set<Notebook> filteredNotebooks = new HashSet<>();
+
+        for (Notebook notebook : notebooks) {
+            boolean addNotebook = true;
+
+            for (Map.Entry<String, Object> entry : filters.entrySet()) {
+                switch (entry.getKey()) {
+                    case "ram" -> {
+                        if (notebook.getRam() < (int) entry.getValue()) {
+                            addNotebook = false;
+                        }
+                    }
+                    case "storage" -> {
+                        if (notebook.getStorage() < (int) entry.getValue()) {
+                            addNotebook = false;
+                        }
+                    }
+                    case "os" -> {
+                        if (!notebook.getOs().equalsIgnoreCase((String) entry.getValue())) {
+                            addNotebook = false;
+                        }
+                    }
+                    case "color" -> {
+                        if (!notebook.getColor().equalsIgnoreCase((String) entry.getValue())) {
+                            addNotebook = false;
+                        }
+                    }
+                }
+            }
+
+            if (addNotebook) {
+                filteredNotebooks.add(notebook);
+            }
+        }
+
+        return filteredNotebooks;
+    }
+}
