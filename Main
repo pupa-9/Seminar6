@@ -1,0 +1,64 @@
+import notebook.Notebook;
+import notebook.FilterUtils;
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<Notebook> notebooks = new HashSet<>();
+        notebooks.add(new Notebook("Lenovo", "ThinkPad X1 Carbon", 16, 512, "Windows 10 Pro", "Black", 1499.99));
+        notebooks.add(new Notebook("Apple", "MacBook Pro", 8, 256, "macOS", "Silver", 1299.99));
+        notebooks.add(new Notebook("Dell", "XPS 13", 16, 512, "Windows 10 Home", "Rose Gold", 1399.99));
+        notebooks.add(new Notebook("HP", "Spectre x360", 16, 1_000, "Windows 10 Home", "Nightfall Black", 1499.99));
+        notebooks.add(new Notebook("Asus", "ZenBook UX425", 8, 512, "Windows 10 Home", "Pine Grey", 999.99));
+
+        Map<String, Object> filters = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("""
+                Введите цифру, соответствующую необходимому критерию:
+                1 - ОЗУ
+                2 - Объем ЖД
+                3 - Операционная система
+                4 - Цвет""");
+        int criteria = scanner.nextInt();
+
+        switch (criteria) {
+            case 1 -> {
+                System.out.println("Введите минимальный объем ОЗУ:");
+                int minRam = scanner.nextInt();
+                filters.put("ram", minRam);
+            }
+            case 2 -> {
+                System.out.println("Введите минимальный объем ЖД:");
+                int minStorage = scanner.nextInt();
+                filters.put("storage", minStorage);
+            }
+            case 3 -> {
+                System.out.println("Введите операционную систему (например, Windows 10 Home):");
+                String os = scanner.nextLine();
+                filters.put("os", os);
+            }
+            case 4 -> {
+                System.out.println("Введите цвет (например, Silver):");
+                String color = scanner.nextLine();
+                filters.put("color", color);
+            }
+            default -> {
+                System.out.println("Некорректный выбор критерия.");
+                return;
+            }
+        }
+
+        Set<Notebook> filteredNotebooks = FilterUtils.filterNotebooks(notebooks, filters);
+
+        if (filteredNotebooks.isEmpty()) {
+            System.out.println("Ноутбуки не найдены.");
+        } else {
+            System.out.println("Результаты фильтрации:");
+            for (Notebook notebook : filteredNotebooks) {
+                System.out.println(notebooks);
+            }
+        }
+    }
+}
